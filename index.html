@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Financial Fraud Detection System</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Your existing styles remain unchanged */
+
+        .content img {
+            margin: 20px auto; /* Adjusted margin for centering */
+            display: block;
+            width: 200px; /* Adjusted width of the image */
+            height: auto; /* Maintaining aspect ratio */
+        }
+        .registration-form {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #f3f0f0;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+        }
+
+        #confirmation-message {
+            color: green;
+            margin-top: 10px;
+        }
+
+        .menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .menu li {
+            margin: 0 15px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #fff; /* Set text color to white */
+            font-weight: bold;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .menu a:hover {
+            color: #007bff; /* Set hover color to the desired color */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="main">
+        <div class="navbar">
+            <div class="icon">
+                <h2 class="logo">SecureSpan</h2> <!-- Adjusted logo name -->
+            </div>
+
+            <div class="menu">
+                <ul>
+                    <li><a href="#">HOME</a></li>
+                    <li><a href="about.html">ABOUT</a></li>
+                    <li><a href="service.html">SERVICES</a></li>
+                    <li><a href="#" onclick="loadFAQs()">FAQs</a></li>
+                </ul>
+            </div>
+        </div> 
+
+        <div class="content" id="content-container">
+            <h1>Financial Fraud Detection <br><span>System for Police</span></h1> <!-- Updated heading -->
+            <img src="Rajasthan_Police_Logo.png" alt="Rajasthan Police Logo" width="200">
+            <div class="form">
+                <h2>Login Here</h2>
+                <input type="text" name="policeID" placeholder="Enter Police ID Here">
+                <input type="password" name="password" placeholder="Enter Password Here">
+                <button class="btnn" onclick="redirectToLogin()">Login</button>
+                <div class="icons">
+                    <!-- Social media icons remain unchanged -->
+                </div> 
+                <p class="link">Don't have an account<br>
+                    <a href="#" onclick="loadRegistrationForm()">Sign up</a> here</p>
+            </div>
+        </div>
+        
+        <div class="registration-form" id="dynamic-form">
+            <!-- This is where the registration form will be inserted -->
+        </div>
+        <p id="confirmation-message"></p>
+        <script>
+            function toggleAnswer(question) {
+                var answer = question.nextElementSibling;
+                answer.style.display = (answer.style.display === 'block') ? 'none' : 'block';
+            }
+        
+            function applyEventListeners() {
+                var faqQuestions = document.querySelectorAll('.faq h3');
+                faqQuestions.forEach(question => {
+                    question.addEventListener('click', function () {
+                        toggleAnswer(this);
+                    });
+                });
+            }
+        
+            function loadFAQs() {
+                // Change the contentContainer to the body
+                var contentContainer = document.body;
+                fetch("faq.html")
+                    .then(response => response.text())
+                    .then(html => {
+                        contentContainer.innerHTML = html;
+                        // After loading FAQs, apply the event listeners for question toggling
+                        applyEventListeners();
+                    })
+                    .catch(error => console.error('Error loading FAQs:', error));
+            }
+        
+            function loadRegistrationForm() {
+                var registrationFormContainer = document.getElementById('dynamic-form');
+                fetch("registration_form.html")
+                    .then(response => response.text())
+                    .then(html => {
+                        registrationFormContainer.innerHTML = html;
+                        registrationFormContainer.style.display = 'block';
+                    })
+                    .catch(error => console.error('Error loading registration form:', error));
+            }
+        
+            function redirectToLogin() {
+                try {
+                    // Perform any login logic here if needed
+                    var confirmationMessage = document.getElementById('confirmation-message');
+                    confirmationMessage.innerHTML = "Login successfully!";
+                    confirmationMessage.style.display = 'block';
+        
+                    // Redirect to indexj.html after successful login
+                    window.location.href = "indexj.html";
+                } catch (error) {
+                    console.error('Error redirecting to login:', error);
+                }
+            }
+        </script>
