@@ -79,7 +79,7 @@
         </div> 
 
         <div class="content" id="content-container">
-            <h1>Financial Fraud Detection <br><span>System for Police</span></h1> <!-- Updated heading -->
+            <h1>Financial Fraud Detection <br><span>System for Police</span></h1>
             <img src="Rajasthan_Police_Logo.png" alt="Rajasthan Police Logo" width="200">
             <div class="form">
                 <h2>Login Here</h2>
@@ -99,36 +99,53 @@
         </div>
         <p id="confirmation-message"></p>
         <script>
-            function toggleAnswer(question) {
-                var answer = question.nextElementSibling;
-                answer.style.display = (answer.style.display === 'block') ? 'none' : 'block';
+            function redirectToLogin() {
+                try {
+                    var policeID = document.querySelector('input[name="policeID"]').value;
+                    var password = document.querySelector('input[name="password"]').value;
+
+                    // Check if the provided data is in the CSV file (policedata.csv)
+                    // Assuming you have a function 'checkCredentials' that returns true if valid
+                    checkCredentials(policeID, password);
+                } catch (error) {
+                    console.error('Error redirecting to login:', error);
+                }
             }
-        
-            function applyEventListeners() {
-                var faqQuestions = document.querySelectorAll('.faq h3');
-                faqQuestions.forEach(question => {
-                    question.addEventListener('click', function () {
-                        toggleAnswer(this);
-                    });
-                });
-            }
-        
-            function loadFAQs() {
-                // Change the contentContainer to the body
-                var contentContainer = document.body;
-                fetch("faq.html")
+
+            function checkCredentials(policeID, password) {
+                // Fetch policedata.csv and perform validation
+                fetch('policedata.csv')
                     .then(response => response.text())
-                    .then(html => {
-                        contentContainer.innerHTML = html;
-                        // After loading FAQs, apply the event listeners for question toggling
-                        applyEventListeners();
+                    .then(data => {
+                        var csvData = data.split('\n');
+                        var headers = csvData[0].split(',');
+                        var isValid = false;
+
+                        for (var i = 1; i < csvData.length; i++) {
+                            var row = csvData[i].split(',');
+                            if (row[headers.indexOf("Police ID")] === policeID && row[headers.indexOf("Password")] === password) {
+                                isValid = true;
+                                break;
+                            }
+                        }
+
+                        if (isValid) {
+                            var confirmationMessage = document.getElementById('confirmation-message');
+                            confirmationMessage.innerHTML = "Login successfully!";
+                            confirmationMessage.style.display = 'block';
+
+                            // Redirect to indexj.html after successful login
+                            window.location.href = "indexj.html";
+                        } else {
+                            alert("Invalid Police ID or Password. Please try again.");
+                        }
                     })
-                    .catch(error => console.error('Error loading FAQs:', error));
+                    .catch(error => console.error('Error fetching policedata.csv:', error));
             }
-        
+
             function loadRegistrationForm() {
                 var registrationFormContainer = document.getElementById('dynamic-form');
-                fetch("registration_form.html")
+                fetch("indexf.html")
                     .then(response => response.text())
                     .then(html => {
                         registrationFormContainer.innerHTML = html;
@@ -136,18 +153,9 @@
                     })
                     .catch(error => console.error('Error loading registration form:', error));
             }
-        
-            function redirectToLogin() {
-                try {
-                    // Perform any login logic here if needed
-                    var confirmationMessage = document.getElementById('confirmation-message');
-                    confirmationMessage.innerHTML = "Login successfully!";
-                    confirmationMessage.style.display = 'block';
-        
-                    // Redirect to indexj.html after successful login
-                    window.location.href = "indexj.html";
-                } catch (error) {
-                    console.error('Error redirecting to login:', error);
-                }
-            }
         </script>
+
+    </div>
+
+</body>
+</html>
