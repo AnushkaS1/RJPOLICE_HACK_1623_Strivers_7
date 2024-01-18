@@ -48,7 +48,7 @@ def preprocess_data(transactions):
         amount = transaction['amount']
         timestamp = datetime.strptime(transaction['timestamp'], '%Y-%m-%dT%H:%M:%S')
 
-        # Extract features (you may need to add more features based on your needs)
+        # Extract features (we may need to add more features based on our needs)
         features = [sender_id, amount, timestamp.timestamp()]
 
         # Check for the logic: money sent from the same account to many accounts at various locations in very little time
