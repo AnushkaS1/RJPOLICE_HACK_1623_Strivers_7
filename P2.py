@@ -11,7 +11,7 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 data = pd.read_csv('final_dataset.csv')
 
 # Explicitly cast 'MISSING' to a compatible dtype before filling NaN values
-data['aadhar_number'] = data['aadhar_number'].astype('object')  # Assuming 'object' is a compatible dtype for your data
+data['aadhar_number'] = data['aadhar_number'].astype('object')  # Assuming 'object' is a compatible dtype for the data
 data['aadhar_number'].fillna('MISSING', inplace=True)
 
 # Preprocess string columns (name and address)
@@ -75,7 +75,7 @@ preprocessor = ColumnTransformer(
 # Split the data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Initialize the RandomForestClassifier (you can choose a different classifier based on your preference)
+# Initialize the RandomForestClassifier (we can choose a different classifier based on your preference)
 clf = Pipeline(steps=[('preprocessor', preprocessor),
                       ('classifier', RandomForestClassifier(random_state=42))])
 
